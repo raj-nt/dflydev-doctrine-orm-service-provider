@@ -36,10 +36,10 @@ An implementation of [dflydev/psr0-resource-locator-service-provider][6]
 is required if using namespaceish resource mapping. See documentation
 for **orm.generate_psr0_mapping** for more information.
 
- 
+
 Installation
 ------------
- 
+
 Through [Composer](http://getcomposer.org) as [dflydev/doctrine-orm-service-provider][7].
 
 
@@ -225,6 +225,7 @@ Configuration
 
      Each mapping definition can have the following optional options:
      * **alias** (Default: null): Set the alias for the entity namespace.
+     * **extension** (Default: .php): Change extension for entity mapping files. Useful if file extension is not .php. Eg. hacklang - .hh
 
      Each **annotation** mapping may also specify the following options:
      * **use_simple_annotation_reader** (Default: true):
@@ -248,7 +249,7 @@ Configuration
  * **orm.ems.options**:
    Array of Entity Manager configuration sets indexed by each Entity Manager's
    name. Each value should look like **orm.em.options**.
-   
+
    Example configuration:
 
    ```php
@@ -257,7 +258,7 @@ Configuration
    $app['orm.ems.options'] = array(
        'mysql' => array(
            'connection' => 'mysql',
-           'mappings' => array(), 
+           'mappings' => array(),
        ),
        'sqlite' => array(
            'connection' => 'sqlite',
@@ -350,7 +351,7 @@ Configuration
      Classes are subclasses of `Doctrine\ORM\Query\AST\Functions\FunctionNode`.
    * **hydration_modes**: Hydrator class names, indexed by hydration mode name.
      Classes are subclasses of `Doctrine\ORM\Internal\Hydration\AbstractHydrator`.
-  
+
 
 ### Services
 
