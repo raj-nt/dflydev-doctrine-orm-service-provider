@@ -129,9 +129,9 @@ class DoctrineOrmServiceProvider implements ServiceProviderInterface
                 $config->setProxyNamespace($container['orm.proxies_namespace']);
                 $config->setAutoGenerateProxyClasses($container['orm.auto_generate_proxies']);
 
-                $config->setCustomStringFunctions($container['orm.custom.functions.string']); 
-                $config->setCustomNumericFunctions($container['orm.custom.functions.numeric']); 
-                $config->setCustomDatetimeFunctions($container['orm.custom.functions.datetime']); 
+                $config->setCustomStringFunctions($container['orm.custom.functions.string']);
+                $config->setCustomNumericFunctions($container['orm.custom.functions.numeric']);
+                $config->setCustomDatetimeFunctions($container['orm.custom.functions.datetime']);
                 $config->setCustomHydrationModes($container['orm.custom.hydration_modes']);
 
                 $config->setClassMetadataFactoryName($container['orm.class_metadata_factory_name']);
@@ -163,32 +163,30 @@ class DoctrineOrmServiceProvider implements ServiceProviderInterface
                                 ? $entity['use_simple_annotation_reader']
                                 : true;
                             $driver = $config->newDefaultAnnotationDriver((array) $entity['path'], $useSimpleAnnotationReader);
-                            $chain->addDriver($driver, $entity['namespace']);
                             break;
                         case 'yml':
                             $driver = new YamlDriver($entity['path']);
-                            $chain->addDriver($driver, $entity['namespace']);
                             break;
                         case 'simple_yml':
                             $driver = new SimplifiedYamlDriver(array($entity['path'] => $entity['namespace']));
-                            $chain->addDriver($driver, $entity['namespace']);
                             break;
                         case 'xml':
                             $driver = new XmlDriver($entity['path']);
-                            $chain->addDriver($driver, $entity['namespace']);
                             break;
                         case 'simple_xml':
                             $driver = new SimplifiedXmlDriver(array($entity['path'] => $entity['namespace']));
-                            $chain->addDriver($driver, $entity['namespace']);
                             break;
                         case 'php':
                             $driver = new StaticPHPDriver($entity['path']);
-                            $chain->addDriver($driver, $entity['namespace']);
                             break;
                         default:
                             throw new \InvalidArgumentException(sprintf('"%s" is not a recognized driver', $entity['type']));
                             break;
                     }
+                    if ($entity['extension']) {
+                        $driver->setFileExtension($entity['extension']);
+                    }
+                    $chain->addDriver($driver, $entity['namespace']);
                 }
                 $config->setMetadataDriverImpl($chain);
 
